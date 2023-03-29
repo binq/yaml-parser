@@ -1,0 +1,118 @@
+- &name: $projectName
+- &author: $vansonEmail
+- &maintainer: $vansonEmail
+- &version
+- &copyright
+- &prevent-autogen-paths: $projectName
+  when:
+    - condition: false
+      other-modules: Paths_{{$-}}
+- &ghc-options:
+  $^:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+- &dependencies: $projectName
+  $^:
+    - $-
+- nonLibTarget: [$t, $srcFilename]
+  $t.name:
+    main: $srcFilename
+    source-dirs: $t.sourceDir
+    << : [ *prevent-autogen-paths, *ghc-options, *dependencies ]
+- &library:
+  $^:
+    source-dirs: src
+    << : *prevent-autogen-paths
+- &executables:
+  $^:
+    << : [ nonLibTarget i "Main.hs" | i <- $- ]
+- &tests:
+  $^:
+    << : [ nonLibTarget i "Spec.hs" | i <- $- ]
+- main:
+  << : [*name, *author, *maintainer, *version, *copyright]
+  build-type: Simple
+  default-extensions:
+    - NoFieldSelectors
+    - NoForeignFunctionInterface
+    - NoImplicitParams
+    - NoImplicitPrelude
+    - NoStarIsType
+    - AllowAmbiguousTypes
+    - ApplicativeDo
+    - Arrows
+    - BangPatterns
+    - BinaryLiterals
+    - BlockArguments
+    - ConstraintKinds
+    - DataKinds
+    - DeriveDataTypeable
+    - DeriveGeneric
+    - DeriveTraversable
+    - DerivingVia
+    - DoAndIfThenElse
+    - DuplicateRecordFields
+    - EmptyCase
+    - EmptyDataDecls
+    - EmptyDataDeriving
+    - ExistentialQuantification
+    - FlexibleContexts
+    - FlexibleInstances
+    - FunctionalDependencies
+    - GADTs
+    - HexFloatLiterals
+    - ImportQualifiedPost
+    - InstanceSigs
+    - LambdaCase
+    - LexicalNegation
+    - LiberalTypeSynonyms
+    - LinearTypes
+    - MagicHash
+    - MonadComprehensions
+    - MonomorphismRestriction
+    - MultiWayIf
+    - NamedFieldPuns
+    - NamedWildCards
+    - NondecreasingIndentation
+    - NumDecimals
+    - NumericUnderscores
+    - OverloadedLabels
+    - OverloadedLists
+    - OverloadedRecordDot
+    - OverloadedRecordUpdate
+    - OverloadedStrings
+    - PackageImports
+    - ParallelListComp
+    - PartialTypeSignatures
+    - PatternGuards
+    - PatternSynonyms
+    - PolyKinds
+    - PostfixOperators
+    - QualifiedDo
+    - QuantifiedConstraints
+    - QuasiQuotes
+    - RankNTypes
+    - RebindableSyntax
+    - RecordWildCards
+    - RecursiveDo
+    - RelaxedPolyRec
+    - RoleAnnotations
+    - ScopedTypeVariables
+    - StandaloneDeriving
+    - StandaloneKindSignatures
+    - StrictData
+    - TemplateHaskellQuotes
+    - TraditionalRecordSyntax
+    - TransformListComp
+    - TupleSections
+    - TypeApplications
+    - TypeFamilyDependencies
+    - TypeOperators
+    - UndecidableInstances
+    - UndecidableSuperClasses
+    - UnicodeSyntax
+    - ViewPatterns
+  verbatim:
+    cabal-version: 2.2
+  << : [*library, *executables, *tests]

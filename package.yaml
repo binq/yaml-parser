@@ -1,0 +1,159 @@
+name: &project-name yaml-parser
+version: 0.1.0.0
+license: MIT
+author: "Vanson Samuel <vansonsamuel@acm.org>"
+maintainer: "Vanson Samuel <vansonsamuel@acm.org>"
+copyright: "Copyright © 2023 Vanson Samuel"
+
+default-extensions:
+  - NoFieldSelectors
+  - NoForeignFunctionInterface
+  - NoImplicitParams
+  - NoImplicitPrelude
+  - NoStarIsType
+  - AllowAmbiguousTypes
+  - ApplicativeDo
+  - Arrows
+  - BangPatterns
+  - BinaryLiterals
+  - BlockArguments
+  - ConstraintKinds
+  - DataKinds
+  - DeriveDataTypeable
+  - DeriveGeneric
+  - DeriveTraversable
+  - DerivingVia
+  - DoAndIfThenElse
+  - DuplicateRecordFields
+  - EmptyCase
+  - EmptyDataDecls
+  - EmptyDataDeriving
+  - ExistentialQuantification
+  - FlexibleContexts
+  - FlexibleInstances
+  - FunctionalDependencies
+  - GADTs
+  - HexFloatLiterals
+  - ImportQualifiedPost
+  - ImpredicativeTypes
+  - InstanceSigs
+  - LambdaCase
+  - LexicalNegation
+  - LiberalTypeSynonyms
+  - LinearTypes
+  - MagicHash
+  - MonadComprehensions
+  - MonomorphismRestriction
+  - MultiWayIf
+  - NamedFieldPuns
+  - NamedWildCards
+  - NondecreasingIndentation
+  - NumDecimals
+  - NumericUnderscores
+  - OverloadedLabels
+  - OverloadedLists
+  - OverloadedRecordDot
+  - OverloadedRecordUpdate
+  - OverloadedStrings
+  - PackageImports
+  - ParallelListComp
+  - PartialTypeSignatures
+  - PatternGuards
+  - PatternSynonyms
+  - PolyKinds
+  - PostfixOperators
+  - QualifiedDo
+  - QuantifiedConstraints
+  - QuasiQuotes
+  - RankNTypes
+  - RebindableSyntax
+  - RecordWildCards
+  - RecursiveDo
+  - RelaxedPolyRec
+  - RoleAnnotations
+  - ScopedTypeVariables
+  - StandaloneDeriving
+  - StandaloneKindSignatures
+  - StrictData
+  - TemplateHaskellQuotes
+  - TraditionalRecordSyntax
+  - TransformListComp
+  - TupleSections
+  - TypeApplications
+  - TypeFamilyDependencies
+  - TypeOperators
+  - UndecidableInstances
+  - UndecidableSuperClasses
+  - UnicodeSyntax
+  - ViewPatterns
+
+extra-source-files:
+  - README.md
+  - CHANGELOG.md
+  - src/Lexer.x
+
+# Metadata used when publishing your package
+# synopsis: A proof of concept yaml parser
+# category: YAML
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description: A proof of concept yaml parser
+
+dependencies:
+  - base >= 4.7 && < 5
+  - array
+  - bytestring
+  - directory
+  - ghc-prim
+  - inflections
+  - logict
+  - microlens
+  - mtl
+  - optics
+  - text
+  - yaml
+
+data-files:
+  - data/test.yaml
+
+build-tool-depends:
+  - alex
+  - happy
+
+ghc-options:
+- -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wmissing-export-lists
+- -Wmissing-home-modules
+- -Wpartial-fields
+- -Wredundant-constraints
+
+library:
+  source-dirs: src
+  exposed-modules:
+    - Lexer
+    - Batteries
+    - GHC.Exts.Rebindable
+
+executables:
+  yaml-parser:
+    main: Main.hs
+    source-dirs: app
+    ghc-options: &ghc-options
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies: &dependencies
+    - *project-name
+
+tests:
+  yaml-parser-test:
+    main: Spec.hs
+    source-dirs: test
+    ghc-options: *ghc-options
+    dependencies: *dependencies
